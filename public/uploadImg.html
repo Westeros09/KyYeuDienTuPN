@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="text" id="folderInput">
+    <br>
+    <input type="file" id="imageUpload" multiple>
+    <button onclick="uploadAll()">Upload tất cả</button>
+
+    <script>
+        async function uploadAll() {
+            const fileInput = document.getElementById("imageUpload");
+            const files = fileInput.files;
+
+            const folderName = document.getElementById("folderInput").value.trim();
+            const uploadPreset = "KyYeuPN"; // Thay bằng upload preset của bạn
+
+            if (!folderName) {
+                alert("❗ Bạn chưa nhập tên folder.");
+                return;
+            }
+            if (files.length === 0) {
+                alert("Vui lòng chọn ít nhất 1 ảnh.");
+                return;
+            }
+
+            for (const file of files) {
+                const formData = new FormData();
+                formData.append("file", file);
+                formData.append("folder", folderName);
+                formData.append("upload_preset", uploadPreset);
+
+                // Tạo public_id từ tên file, bỏ đuôi, thay khoảng trắng bằng dấu -
+                const rawName = file.name.split('.').slice(0, -1).join('.')
+                    .trim()
+                    .replace(/\s+/g, "-");
+
+                console.log(`${rawName}`);
+                formData.append("public_id", `${rawName}`); // <-- Tạo đường dẫn dạng folder/name
+
+                try {
+                    const res = await fetch("https://api.cloudinary.com/v1_1/dn7svhgyv/image/upload", {
+                        method: "POST",
+                        body: formData
+                    });
+                    const data = await res.json();
+                    console.log("✅ Uploaded:", data.secure_url);
+
+                } catch (err) {
+                    console.error("❌ Upload thất bại:", file.name, err);
+                }
+            }
+
+            alert("✅ Upload hoàn tất!");
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,57 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 90%;
+    margin: 0 auto;
+}
+
+#macy {
+    opacity: 0;
+    transition: all 0.5s;
+}
+
+.show {
+    opacity: 1 !important;
+}
+
+.box img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.hidden {
+    display: none;
+}
+
+
+
+.fancybox__container {
+    --right-col-width: 0px;
+}
+
+.fancybox__container.has-sidebar {
+    --right-col-width: clamp(150px, 20vw, 300px);
+}
+
+.fancybox__cols {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) var(--right-col-width);
+    height: 100%;
+}
+
+.fancybox__col {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.fancybox__data {
+    padding: 1rem;
+    overflow: auto;
+}
