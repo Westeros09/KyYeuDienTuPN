@@ -7,6 +7,8 @@ export default async function handler(req, res) {
     }
 
     const url = `https://api.cloudinary.com/v1_1/${cloudName}/resources/image/upload?prefix=${folder}/&max_results=100`;
+    // const url = `https://api.cloudinary.com/v1_1/${cloudName}/resources/image?prefix=${folder}/&max_results=100`;
+
     const auth = Buffer.from(`${process.env.CLOUDINARY_API_KEY}:${process.env.CLOUDINARY_API_SECRET}`).toString('base64');
 
     const response = await fetch(url, {
@@ -16,6 +18,8 @@ export default async function handler(req, res) {
     });
 
     if (!response.ok) {
+        const errText = await response.text(); // xem thông báo chi tiết
+        console.error("Cloudinary fetch failed:", errText);
         return res.status(500).json({ error: 'Failed to fetch from Cloudinary' });
     }
 
