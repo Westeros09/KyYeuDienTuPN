@@ -1,4 +1,9 @@
 export default async function handler(req, res) {
+    console.log("DEBUG - ENV:", {
+        CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
+        CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET
+    });
+
     const cloudName = 'dn7svhgyv';
     const { folder } = req.query;
 
@@ -8,8 +13,7 @@ export default async function handler(req, res) {
 
     // const url = `https://api.cloudinary.com/v1_1/${cloudName}/resources/image/upload?prefix=${folder}/&max_results=100`;
     const url = `https://api.cloudinary.com/v1_1/${cloudName}/resources/image?type=upload&prefix=${folder}/&max_results=100`;
-    console.log("API KEY:", process.env.CLOUDINARY_API_KEY);
-    console.log("API SECRET:", process.env.CLOUDINARY_API_SECRET);
+
 
     const auth = Buffer.from(`${process.env.CLOUDINARY_API_KEY}:${process.env.CLOUDINARY_API_SECRET}`).toString('base64');
 

@@ -348,7 +348,6 @@
 
     // Gọi API backend để lấy danh sách ảnh
     fetch(`${window.location.origin}/api/cloudinary?folder=${folder}`)
-      // fetch(`/api/cloudinary?folder=${encodeURIComponent(folder)}`)
       .then(res => res.json())
       .then(images => {
         images.forEach((imgData, index) => {
