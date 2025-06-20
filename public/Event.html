@@ -314,6 +314,9 @@
     // Chỉ hiển thị ảnh đầu
     imageElements.slice(0, visibleCount).forEach(el => macyContainer.appendChild(el));
 
+    if (totalImages <= visibleCount) {
+      toggleBtn.style.display = 'none';
+    }
     // Sự kiện nút
     toggleBtn.addEventListener('click', () => {
       if (!isExpanded) {
