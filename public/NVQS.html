@@ -179,65 +179,6 @@
         </div>
       </div>
     </section>
-    <!-- <script>
-      const macyContainer = document.getElementById('macy');
-      const toggleBtn = document.getElementById('toggleBtn');
-
-      const cloudBase = 'https://res.cloudinary.com/dn7svhgyv/image/upload/';
-      const imageFolder = 'NVQS/PhucTraHiepDong/';
-
-      const totalImages = 41;
-      const visibleCount = 12;
-      let isExpanded = false;
-      let imageElements = [];
-
-      // Tạo toàn bộ ảnh trong mảng (chưa đưa vào DOM)
-      for (let i = 1; i <= totalImages; i++) {
-        const box = document.createElement('div');
-        box.className = 'box';
-
-        const imageUrl = `${cloudBase}f_auto,q_auto/${imageFolder}${i}.jpg`;
-
-        const anchor = document.createElement('a');
-        anchor.setAttribute('data-fancybox', 'gallery1');
-        anchor.href = imageUrl;
-        anchor.setAttribute('data-thumb', imageUrl);
-
-        const img = document.createElement('img');
-        img.src = imageUrl;
-        img.alt = `PhucTraHiepDong ${i}`;
-        img.loading = "lazy";
-
-        anchor.appendChild(img);
-        box.appendChild(anchor);
-        imageElements.push(box);
-      }
-
-      // Chỉ hiển thị ảnh đầu
-      imageElements.slice(0, visibleCount).forEach(el => macyContainer.appendChild(el));
-
-      // Sự kiện nút
-      toggleBtn.addEventListener('click', () => {
-        if (!isExpanded) {
-          imageElements.slice(visibleCount).forEach(el => macyContainer.appendChild(el));
-          toggleBtn.textContent = 'Rút gọn';
-        } else {
-          imageElements.slice(visibleCount).forEach(el => macyContainer.removeChild(el));
-          toggleBtn.textContent = 'Xem thêm';
-        }
-
-        isExpanded = !isExpanded;
-
-        if (typeof macy !== 'undefined') {
-          macy.runOnImageLoad(() => {
-            macy.recalculate(true, true);
-          }, true);
-        }
-      });
-    </script> -->
-
-
-
 
   </main>
 
@@ -335,162 +276,45 @@
   <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
   <script src="./assets/js/macy.js"></script>
 
+
   <script>
-    const macyContainer = document.getElementById('macy');
-    const toggleBtn = document.getElementById('toggleBtn');
-
-    const visibleCount = 12;
-    let isExpanded = false;
-    let imageElements = [];
-    let macy = null; // phải để ở đây để dùng lại khi toggle
     const params = new URLSearchParams(window.location.search);
-    const folder = params.get('folder') || 'NVQS/PhucTraHiepDong';
+    const imageFolder = params.get('folder');
+    const totalImages = parseInt(params.get('total')) || 0;
 
-    // Gọi API backend để lấy danh sách ảnh
-    fetch(`${window.location.origin}/api/cloudinary?folder=${folder}`)
-      .then(res => res.json())
-      .then(images => {
-        images.forEach((imgData, index) => {
-          const box = document.createElement('div');
-          box.className = 'box';
-
-          const imageUrl = imgData.secure_url;
-          console.log(imageUrl)
-
-          const anchor = document.createElement('a');
-          anchor.setAttribute('data-fancybox', 'gallery1');
-          anchor.href = imageUrl;
-          anchor.setAttribute('data-thumb', imageUrl);
-
-          const img = document.createElement('img');
-          img.src = imageUrl;
-          img.alt = `Ảnh ${index + 1}`;
-          img.loading = "lazy";
-
-          anchor.appendChild(img);
-          box.appendChild(anchor);
-          imageElements.push(box);
-        });
-
-        // Hiển thị ảnh đầu tiên
-        imageElements.slice(0, visibleCount).forEach(el => macyContainer.appendChild(el));
-
-        // ✅ TẠO Macy SAU KHI ảnh đã vào DOM
-        macy = Macy({
-          container: '#macy',
-          trueOrder: false,
-          waitForImages: true,
-          margin: 30,
-          columns: 4,
-          breakAt: {
-            1200: 4,
-            940: 3,
-            520: 2,
-            400: 1
-          }
-        });
-
-        macy.runOnImageLoad(() => {
-          document.getElementById("macy").classList.add("show");
-          macy.recalculate(true, true);
-        }, true);
-      });
-
-    // Nút Xem thêm / Rút gọn
-    toggleBtn.addEventListener('click', () => {
-      if (!isExpanded) {
-        imageElements.slice(visibleCount).forEach(el => macyContainer.appendChild(el));
-        toggleBtn.textContent = 'Rút gọn';
-      } else {
-        imageElements.slice(visibleCount).forEach(el => macyContainer.removeChild(el));
-        toggleBtn.textContent = 'Xem thêm';
-      }
-
-      isExpanded = !isExpanded;
-
-      if (macy) {
-        macy.runOnImageLoad(() => {
-          macy.recalculate(true, true);
-        }, true);
-      }
-    });
-
-    Fancybox.bind('[data-fancybox="gallery1"]', {
-      dragToClose: false,
-
-      Toolbar: {
-        display: {
-          left: ['close'],
-          middle: [],
-          right: [],
-        },
-      },
-
-      Images: {
-        zoom: false,
-      },
-
-      Thumbs: {
-        // type: 'classic',
-        type: 'modern',
-      },
-
-      Carousel: {
-        transition: false,
-        friction: 0,
-      },
-
-      on: {
-        'Carousel.ready Carousel.change': (fancybox) => {
-          fancybox.container.style.setProperty(
-            '--bg-image',
-            `url("${fancybox.getSlide().thumbSrc}")`
-          );
-        },
-      },
-    });
-  </script>
-
-  <!-- <script>
     const macyContainer = document.getElementById('macy');
     const toggleBtn = document.getElementById('toggleBtn');
-
+    const cloudBase = 'https://res.cloudinary.com/dn7svhgyv/image/upload/';
     const visibleCount = 12;
     let isExpanded = false;
     let imageElements = [];
 
-    // Gọi API backend để lấy danh sách ảnh
-    fetch('/api/cloudinary')
-      .then(res => res.json())
-      .then(images => {
-        // Duyệt danh sách ảnh trả về từ Cloudinary
-        images.forEach((imgData, index) => {
-          const box = document.createElement('div');
-          box.className = 'box';
+    // Tạo toàn bộ ảnh trong mảng (chưa đưa vào DOM)
+    for (let i = 1; i <= totalImages; i++) {
+      const box = document.createElement('div');
+      box.className = 'box';
 
-          const imageUrl = imgData.secure_url;
-          console.log(imageUrl) // ảnh thật từ Cloudinary
+      const imageUrl = `${cloudBase}f_auto,q_auto/${imageFolder}${i}.jpg`;
 
-          const anchor = document.createElement('a');
-          anchor.setAttribute('data-fancybox', 'gallery1');
-          anchor.href = imageUrl;
-          anchor.setAttribute('data-thumb', imageUrl);
+      const anchor = document.createElement('a');
+      anchor.setAttribute('data-fancybox', 'gallery1');
+      anchor.href = imageUrl;
+      anchor.setAttribute('data-thumb', imageUrl);
 
-          const img = document.createElement('img');
-          img.src = imageUrl;
-          img.alt = `Ảnh ${index + 1}`;
-          img.loading = "lazy";
+      const img = document.createElement('img');
+      img.src = imageUrl;
+      img.alt = `PhucTraHiepDong ${i}`;
+      img.loading = "lazy";
 
-          anchor.appendChild(img);
-          box.appendChild(anchor);
-          imageElements.push(box);
-        });
+      anchor.appendChild(img);
+      box.appendChild(anchor);
+      imageElements.push(box);
+    }
 
-        // Hiển thị ảnh đầu tiên
-        imageElements.slice(0, visibleCount).forEach(el => macyContainer.appendChild(el));
-      });
+    // Chỉ hiển thị ảnh đầu
+    imageElements.slice(0, visibleCount).forEach(el => macyContainer.appendChild(el));
 
-    // Nút Xem thêm / Rút gọn
+    // Sự kiện nút
     toggleBtn.addEventListener('click', () => {
       if (!isExpanded) {
         imageElements.slice(visibleCount).forEach(el => macyContainer.appendChild(el));
@@ -508,13 +332,12 @@
         }, true);
       }
     });
-  </script>
 
-  <script>
-    var macy = Macy({
+    // ✅ TẠO Macy SAU KHI ảnh đã vào DOM
+    macy = Macy({
       container: '#macy',
       trueOrder: false,
-      waitForImages: false,
+      waitForImages: true,
       margin: 30,
       columns: 4,
       breakAt: {
@@ -524,11 +347,11 @@
         400: 1
       }
     });
-    macy.runOnImageLoad(function () {
-      var show = document.getElementById("macy")
-      show.classList.add("show");
+
+    macy.runOnImageLoad(() => {
+      document.getElementById("macy").classList.add("show");
       macy.recalculate(true, true);
-    });
+    }, true);
 
     Fancybox.bind('[data-fancybox="gallery1"]', {
       dragToClose: false,
@@ -564,9 +387,9 @@
         },
       },
     });
+  </script>
 
 
-  </script> -->
 
   <!-- Main JS File -->
   <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-app-compat.js"></script>
