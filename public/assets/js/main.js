@@ -157,12 +157,6 @@
     return params.get("noilam");
   }
 
-  // document.querySelector(".search-input").addEventListener("input", function () {
-  //   const searchTerm = this.value.trim().toLowerCase();
-  //   console.log("Tên tìm kiếm: " + searchTerm)
-  //   timTheoTen(searchTerm);
-  // });
-
   const searchInput = document.querySelector(".search-input");
   if (searchInput) {
     searchInput.addEventListener("input", function () {
@@ -171,6 +165,8 @@
       timTheoTen(searchTerm);
     });
   }
+
+
 
 
   function timTheoTen(tuKhoa) {
@@ -191,12 +187,14 @@
       const container = document.querySelector(".isotope-container");
       container.innerHTML = "";
 
+
       querySnapshot.forEach((doc) => {
         const data = doc.data();
         const hoTen = data.hoten.toLowerCase();
         const key = tuKhoa.toLowerCase();
 
         if (hoTen.includes(key)) {
+
           const docId = doc.id;
           const memberHTML = `
           <div class="col-lg-3 col-6 portfolio-item isotope-item filter-${data.phongban}" data-aos-delay="100">
@@ -218,6 +216,8 @@
         `;
           container.insertAdjacentHTML("beforeend", memberHTML);
         }
+
+
       });
 
       imagesLoaded(container, function () {
@@ -232,6 +232,7 @@
 
 
   function napDuLieuVaoHTML() {
+
     const noilamFilter = getNoiLamFromURL();
     console.log(noilamFilter)
 

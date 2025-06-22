@@ -40,7 +40,7 @@ function loadDataTable() {
                 data.hoten || '',
                 data.noilam || '',
                 data.capbac || 'N/A',
-                tenPhongBan || '',
+                tenPhongBan || 'N/A',
                 data.chucvu || '',
                 `
                     <button type="button" class="btn btn-sm btn-primary edit-btn" data-id="${docId}" data-toggle="modal" data-target="#exampleModal">

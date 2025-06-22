@@ -11,23 +11,24 @@ const firebaseConfig = {
     measurementId: "G-JVX3GKQ32P"
 };
 
+const adminEmails = ["chqs@gmail.com", "admin2@domain.com"];
+
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// Nếu chưa đăng nhập → chuyển trang
 onAuthStateChanged(auth, (user) => {
     if (!user) {
         window.location.href = "login.html";
     } else {
-        // Kiểm tra nếu KHÔNG phải admin
-        if (user.email !== "chqs@gmail.com") {
-            const adminMenu = document.getElementById("adminMenu");
-            if (adminMenu) {
-                adminMenu.style.display = "none";
-            }
+        if (!adminEmails.includes(user.email)) {
+
+            window.location.href = "index.html"; // hoặc về home page
+            alert("Bạn không có quyền truy cập trang này.");
         }
     }
 });
+
 
 window.logout = function () {
     signOut(auth).then(() => {
