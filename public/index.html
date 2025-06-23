@@ -516,6 +516,32 @@
   <script src="./assets/js/macy.js"></script>
 
   <script>
+
+    var macy = Macy({
+      container: '#macy',
+      trueOrder: false,
+      waitForImages: false,
+      margin: 30,
+      columns: 4,
+      breakAt: {
+        1200: 4,
+        940: 3,
+        520: 2,
+        400: 1
+      }
+    });
+    macy.runOnImageLoad(function () {
+      var show = document.getElementById("macy")
+      show.classList.add("show");
+
+      // console.log('I only get called when all images are loaded');
+      macy.recalculate(true, true);
+    });
+
+    Fancybox.bind('[data-fancybox]', {
+      // Custom options for all galleries
+    });
+
     Fancybox.bind('[data-fancybox="gallery"]', {
       dragToClose: false,
 
@@ -549,31 +575,6 @@
           );
         },
       },
-    });
-  </script>
-
-
-  <script>
-
-    var macy = Macy({
-      container: '#macy',
-      trueOrder: false,
-      waitForImages: false,
-      margin: 30,
-      columns: 4,
-      breakAt: {
-        1200: 4,
-        940: 3,
-        520: 2,
-        400: 1
-      }
-    });
-    macy.runOnImageLoad(function () {
-      var show = document.getElementById("macy")
-      show.classList.add("show");
-
-      // console.log('I only get called when all images are loaded');
-      macy.recalculate(true, true);
     });
 
     Fancybox.bind('[data-fancybox="gallery1"]', {
