@@ -1632,12 +1632,7 @@ section,
   margin-right: 0;
 }
 
-@media (max-width: 575px) {
-  .portfolio .portfolio-filters li {
-    font-size: 14px;
-    margin: 0 5px;
-  }
-}
+
 
 .member .pic {
   width: 100%;
@@ -1810,9 +1805,7 @@ section,
   background: color-mix(in srgb, var(--accent-color), transparent 20%);
 }
 
-/*--------------------------------------------------------------
-# Team Section
---------------------------------------------------------------*/
+
 .portfolio .member {
   position: relative;
 }
@@ -1863,7 +1856,7 @@ section,
 .portfolio .member .social {
   position: absolute;
   right: 15px;
-  bottom: 15px;
+  bottom: 20px;
 }
 
 .portfolio .member .social a {
@@ -1878,6 +1871,24 @@ section,
 .portfolio .member .social i {
   font-size: 16px;
   margin: 0 2px;
+}
+
+@media (max-width: 575px) {
+  .portfolio .portfolio-filters li {
+    font-size: 14px;
+    margin: 0 5px;
+  }
+
+  .portfolio .member .member-info h4 {
+    font-size: 14px !important;
+  }
+
+  .portfolio .member .social {
+    position: static !important;
+    text-align: left;
+    margin-top: 5px;
+  }
+
 }
 
 /* Hiệu ứng hover cho ảnh */
