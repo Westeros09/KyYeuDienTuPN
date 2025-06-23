@@ -10,8 +10,9 @@
 <body>
     <input type="text" id="folderInput">
     <br>
-    <input type="file" id="imageUpload" multiple>
+    <input type="file" id="imageUpload" multiple accept="image/*,video/*">
     <button onclick="uploadAll()">Upload tất cả</button>
+
 
     <script>
         async function uploadAll() {
@@ -45,10 +46,12 @@
                 formData.append("public_id", `${rawName}`); // <-- Tạo đường dẫn dạng folder/name
 
                 try {
-                    const res = await fetch("https://api.cloudinary.com/v1_1/dn7svhgyv/image/upload", {
+                    const fileType = file.type.startsWith("video/") ? "video" : "image";
+                    const res = await fetch(`https://api.cloudinary.com/v1_1/dn7svhgyv/${fileType}/upload`, {
                         method: "POST",
                         body: formData
                     });
+
                     const data = await res.json();
                     console.log("✅ Uploaded:", data.secure_url);
 

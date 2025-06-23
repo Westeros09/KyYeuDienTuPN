@@ -344,15 +344,15 @@
           const ul = document.querySelector(".portfolio-info ul");
           ul.innerHTML = `
           <li><strong>Nơi làm</strong>: ${data.noilam}</li>
-          <li><strong>Cấp bậc</strong>: ${data.capbac}</li>
-          <li><strong>Phòng ban</strong>: ${tenPhongBan}</li>
+          <li><strong>Cấp bậc</strong>: ${data.capbac ? data.capbac : 'N/A'}</li>
+          <li><strong>Phòng ban</strong>: ${tenPhongBan ? tenPhongBan : 'N/A'}</li>
           <li><strong>Chức vụ</strong>: ${data.chucvu}</li>
         `;
 
           document.querySelector(".portfolio-description p").innerText = data.tamtinh ?? "Chưa có.";
           document.querySelector(".swiper-wrapper").innerHTML = `
             <div class="swiper-slide">
-              <img src="${data.hinhanh}" alt="Hình ảnh cá nhân">
+              <img src="${data.hinhanh ? data.hinhanh : './assets/img/NoAvatar.jpg'}" alt="Hình ảnh cá nhân">
             </div> `;
 
         } else {

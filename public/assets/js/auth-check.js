@@ -10,7 +10,7 @@ const firebaseConfig = {
     appId: "1:440890277287:web:f00fcf9b017978f94c4a82",
     measurementId: "G-JVX3GKQ32P"
 };
-
+const adminEmails = ["chqs@gmail.com", "admin1@gmail.com"];
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
@@ -20,7 +20,7 @@ onAuthStateChanged(auth, (user) => {
         window.location.href = "login.html";
     } else {
         // Kiểm tra nếu KHÔNG phải admin
-        if (user.email !== "chqs@gmail.com") {
+        if (!adminEmails.includes(user.email)) {
             const adminMenu = document.getElementById("adminMenu");
             if (adminMenu) {
                 adminMenu.style.display = "none";
