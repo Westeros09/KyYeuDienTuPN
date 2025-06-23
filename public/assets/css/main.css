@@ -1100,13 +1100,29 @@ section,
   color: color-mix(in srgb, var(--accent-color), transparent 20%);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
   .hero h2 {
-    font-size: 32px;
+    margin-top: 15px;
+    font-size: 38px;
+    text-align: center;
   }
 
   .hero p {
     font-size: 18px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 769px) {
+  .hero h2 {
+    margin-top: 15px;
+    font-size: 32px;
+    text-align: center;
+  }
+
+  .hero p {
+    font-size: 18px;
+    text-align: center;
   }
 }
 
@@ -1334,11 +1350,15 @@ section,
   color: var(--contrast-color);
 }
 
-@media (max-width: 768px) {
-  .features .nav-link i {
-    padding: 0;
-    line-height: 1;
-    font-size: 36px;
+@media (max-width: 992px) {
+
+  .features .nav-item {
+    margin: 10px 0;
+  }
+
+  .features .nav-link h4 {
+    font-size: 17px;
+    font-weight: 600;
   }
 }
 
@@ -1347,8 +1367,10 @@ section,
     padding: 15px;
   }
 
-  .features .nav-link i {
-    font-size: 24px;
+
+  .features .nav-link h4 {
+    font-size: 14px;
+
   }
 }
 
