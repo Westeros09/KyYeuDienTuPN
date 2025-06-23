@@ -166,6 +166,16 @@
     });
   }
 
+  const tatCaTab = document.querySelector('[data-filter="*"]');
+  if (tatCaTab) {
+    tatCaTab.addEventListener("click", function () {
+      const searchInput = document.querySelector(".search-input");
+      if (searchInput) searchInput.value = ""; // Reset input
+      napDuLieuVaoHTML();
+    });
+  }
+
+
 
 
 
