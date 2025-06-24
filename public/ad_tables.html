@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Kỷ yếu điện tử - Admin</title>
+
+    <!-- Custom fonts for this template -->
+    <!-- <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"> -->
+    <script src="https://kit.fontawesome.com/fa975b375a.js" crossorigin="anonymous"></script>
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="assets/css/sb-admin-2.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this page -->
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <!-- Favicons -->
+    <link href="assets/img/LOGO 1.png" rel="icon">
+    <link href="assets/img/LOGO 1.png" rel="apple-touch-icon">
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <div class="sidebar-brand-icon ">
+                    <!-- <i class="fas fa-laugh-wink"></i> -->
+                    <img src="assets/img/LOGO 1.png" width="40px" alt="">
+                    <link href="assets/img/LOGO 1.png" rel="icon">
+                </div>
+                <div class="sidebar-brand-text mx-3"> Admin</div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+            <!-- Nav Item - Tables -->
+            <li class="nav-item active">
+                <a class="nav-link" href="ad_tables.html">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Danh sách </span></a>
+            </li>
+
+
+            <li class="nav-item">
+                <a class="nav-link" href="ad_event.html">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <span>Sự kiện</span></a>
+            </li>
+
+            <!--
+            <hr class="sidebar-divider">
+
+
+            <div class="sidebar-heading">
+                Interface
+            </div>
+
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Components</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Custom Components:</h6>
+                        <a class="collapse-item" href="buttons.html">Buttons</a>
+                        <a class="collapse-item" href="cards.html">Cards</a>
+                    </div>
+                </div>
+            </li>
+
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                    aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-fw fa-wrench"></i>
+                    <span>Utilities</span>
+                </a>
+                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Custom Utilities:</h6>
+                        <a class="collapse-item" href="utilities-color.html">Colors</a>
+                        <a class="collapse-item" href="utilities-border.html">Borders</a>
+                        <a class="collapse-item" href="utilities-animation.html">Animations</a>
+                        <a class="collapse-item" href="utilities-other.html">Other</a>
+                    </div>
+                </div>
+            </li>
+
+
+            <hr class="sidebar-divider">
+
+
+            <div class="sidebar-heading">
+                Addons
+            </div>
+
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Pages</span>
+                </a>
+                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Login Screens:</h6>
+                        <a class="collapse-item" href="login.html">Login</a>
+                        <a class="collapse-item" href="register.html">Register</a>
+                        <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
+                        <div class="collapse-divider"></div>
+                        <h6 class="collapse-header">Other Pages:</h6>
+                        <a class="collapse-item" href="404.html">404 Page</a>
+                        <a class="collapse-item" href="blank.html">Blank Page</a>
+                    </div>
+                </div>
+            </li>
+
+
+            <li class="nav-item">
+                <a class="nav-link" href="charts.html">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>Charts</span></a>
+            </li> -->
+
+
+
+
+            <hr class="sidebar-divider d-none d-md-block">
+
+
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid mt-3">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800">Quản lý thành viên</h1>
+                    <!-- <button onclick="luuDuLieu()">Tạo</button> -->
+
+
+
+
+
+                    <!-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
+                        For more information about DataTables, please visit the <a target="_blank"
+                            href="https://datatables.net">official DataTables documentation</a>.</p> -->
+
+
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <!-- <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6> -->
+                            <!-- Button trigger modal -->
+                            <button type="button" class="mb-2 btn btn-primary" data-toggle="modal"
+                                data-target="#exampleModal">
+                                Thêm thành viên
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Quản lý</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form>
+                                                <input type="hidden" id="docIdEditing">
+                                                <div class="form-group">
+                                                    <label for="noilam">Nơi làm:</label>
+                                                    <select class="form-control" id="noilam">
+                                                        <option value="" disabled selected>-- Chọn nơi làm --</option>
+                                                        <option value="Ban CHQS">Ban CHQS</option>
+                                                        <option value="Phường 1">Phường 1</option>
+                                                        <option value="Phường 2">Phường 2</option>
+                                                        <option value="Phường 4">Phường 4</option>
+                                                        <option value="Phường 5">Phường 5</option>
+                                                        <option value="Phường 7">Phường 7</option>
+                                                        <option value="Phường 8">Phường 8</option>
+                                                        <option value="Phường 9">Phường 9</option>
+                                                        <option value="Phường 10">Phường 10</option>
+                                                        <option value="Phường 11">Phường 11</option>
+                                                        <option value="Phường 13">Phường 13</option>
+                                                        <option value="Phường 15">Phường 15</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="stt">Số thứ tự</label>
+                                                    <input type="number" class="form-control" id="stt"
+                                                        aria-describedby="emailHelp">
+
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="hoten">Họ và tên</label>
+                                                    <input type="text" class="form-control" id="hoten"
+                                                        aria-describedby="emailHelp">
+
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="phongban">Phòng ban:</label>
+                                                    <select class="form-control" id="phongban">
+                                                        <option value="" disabled selected>-- Chọn phòng ban --</option>
+                                                        <option value="bch">Ban chỉ huy</option>
+                                                        <option value="tm">Ban Tham mưu</option>
+                                                        <option value="ct">Ban Chính trị</option>
+                                                        <option value="hckt">Ban Hậu cần-Kỹ thuật</option>
+                                                        <option value="dqtv">Dân quân tự vệ</option>
+                                                        <option value="khac">Khác</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="capbac">Cấp bậc:</label>
+                                                    <input type="text" class="form-control" id="capbac"
+                                                        aria-describedby="emailHelp">
+
+                                                </div>
+
+
+                                                <div class="form-group">
+                                                    <label for="chucvu">Chức vụ:</label>
+                                                    <input type="text" class="form-control" id="chucvu"
+                                                        aria-describedby="emailHelp">
+
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="tamtinh">Tâm tình:</label>
+                                                    <textarea class="form-control" id="tamtinh" rows="3"></textarea>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="imageUpload">Hình</label>
+                                                    <input type="file" class="form-control-file" id="imageUpload"
+                                                        accept="image/*">
+
+
+
+                                                    <div
+                                                        style="display: flex; justify-content: center; margin-top: 15px;">
+                                                        <img id="previewImage" src="#" alt="Ảnh xem trước"
+                                                            style="max-width: 300px; display: none; border: 1px solid #ccc; padding: 5px;">
+
+                                                    </div>
+                                                </div>
+
+                                                <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" onclick="resetForm()"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary" onclick="luuDuLieu()">Save
+                                                changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Số thứ tự</th>
+                                            <th>Họ tên</th>
+                                            <th>Nơi làm</th>
+                                            <th>Cấp bậc</th>
+                                            <th>Phòng ban</th>
+                                            <th>Chức vụ</th>
+                                            <th>Hành động</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Số thứ tự</th>
+                                            <th>Họ tên</th>
+                                            <th>Nơi làm</th>
+                                            <th>Cấp bậc</th>
+                                            <th>Phòng ban</th>
+                                            <th>Chức vụ</th>
+                                            <th>Hành động</th>
+
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Hieu Website 2025</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="assets/js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="assets/js/demo/datatables-demo.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore-compat.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/browser-image-compression@1.0.17/dist/browser-image-compression.js"></script>
+
+    <script src="./assets/js/admin2.js"></script>
+    <script type="module" src="assets/js/auth-check-admin.js"></script>
+
+</body>
+
+</html>

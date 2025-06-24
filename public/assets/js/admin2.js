@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function loadDataTable() {
 
-    db.collection("thongtin").orderBy("thoigian", "desc").get().then((querySnapshot) => {
+    db.collection("thongtin").orderBy("stt", "asc").get().then((querySnapshot) => {
         const dataSet = [];
 
         querySnapshot.forEach((doc) => {
@@ -37,6 +37,7 @@ function loadDataTable() {
             const docId = doc.id;
             const tenPhongBan = phongBanMap[data.phongban] || data.phongban;
             dataSet.push([
+                data.stt || '',
                 data.hoten || '',
                 data.noilam || '',
                 data.capbac || 'N/A',
@@ -54,6 +55,7 @@ function loadDataTable() {
         $('#dataTable').DataTable({
             data: dataSet,
             columns: [
+                { title: "Số thứ tự" },
                 { title: "Họ tên" },
                 { title: "Nơi làm" },
                 { title: "Cấp bậc" },
@@ -66,6 +68,43 @@ function loadDataTable() {
     }).catch(error => {
         console.error("Lỗi khi load dữ liệu:", error);
     });
+    // db.collection("thongtin").orderBy("thoigian", "desc").get().then((querySnapshot) => {
+    //     const dataSet = [];
+
+    //     querySnapshot.forEach((doc) => {
+    //         const data = doc.data();
+    //         const docId = doc.id;
+    //         const tenPhongBan = phongBanMap[data.phongban] || data.phongban;
+    //         dataSet.push([
+    //             data.hoten || '',
+    //             data.noilam || '',
+    //             data.capbac || 'N/A',
+    //             tenPhongBan || 'N/A',
+    //             data.chucvu || '',
+    //             `
+    //                 <button type="button" class="btn btn-sm btn-primary edit-btn" data-id="${docId}" data-toggle="modal" data-target="#exampleModal">
+    //                     Sửa
+    //                 </button>
+    //                 <button class="btn btn-sm btn-danger delete-btn" data-id="${docId}">Xóa</button>
+    //             `,
+    //         ]);
+    //     });
+
+    //     $('#dataTable').DataTable({
+    //         data: dataSet,
+    //         columns: [
+    //             { title: "Họ tên" },
+    //             { title: "Nơi làm" },
+    //             { title: "Cấp bậc" },
+    //             { title: "Phòng ban" },
+    //             { title: "Chức vụ" },
+    //             { title: "Hành động", orderable: false, searchable: false }
+    //         ],
+    //         destroy: true
+    //     });
+    // }).catch(error => {
+    //     console.error("Lỗi khi load dữ liệu:", error);
+    // });
 }
 
 document.addEventListener("click", function (event) {
@@ -76,6 +115,7 @@ document.addEventListener("click", function (event) {
         db.collection("thongtin").doc(docId).get().then((doc) => {
             if (doc.exists) {
                 const data = doc.data();
+                document.getElementById("stt").value = data.stt || "";
                 document.getElementById("hoten").value = data.hoten || "";
                 document.getElementById("noilam").value = data.noilam || "";
                 document.getElementById("capbac").value = data.capbac || "";
@@ -123,10 +163,30 @@ imageInput.addEventListener('change', function (event) {
     }
 });
 
+async function compressImage(file) {
+    const options = {
+        maxSizeMB: 2,
+        maxWidthOrHeight: 2048,
+        useWebWorker: true,
+        initialQuality: 0.9
+    };
+
+    try {
+        const compressedFile = await imageCompression(file, options);
+        console.log("Ảnh gốc:", (file.size / 1024 / 1024).toFixed(2), "MB");
+        console.log("Ảnh nén:", (compressedFile.size / 1024 / 1024).toFixed(2), "MB");
+        return compressedFile;
+    } catch (error) {
+        console.error("❌ Lỗi nén ảnh:", error);
+        return file; // fallback
+    }
+}
 
 
-function luuDuLieu() {
+
+async function luuDuLieu() {
     const docId = document.getElementById("docIdEditing").value || null;
+    const stt = parseInt(document.getElementById("stt").value) || 0;
     const noilam = document.getElementById("noilam").value;
     const hoten = document.getElementById("hoten").value;
     const capbac = document.getElementById("capbac").value;
@@ -138,8 +198,10 @@ function luuDuLieu() {
     const file = fileInput.files[0];
 
     if (file) {
+        const compressed = await compressImage(file);
+
         const formData = new FormData();
-        formData.append("file", file);
+        formData.append("file", compressed);
         formData.append("upload_preset", "KyYeuPN");
         let rawName = file.name.split('.').slice(0, -1).join('.');
         rawName = rawName
@@ -163,7 +225,7 @@ function luuDuLieu() {
             .then(res => res.json())
             .then(data => {
                 const imageUrl = data.secure_url;
-                luuVaoFirestore(docId, noilam, hoten, capbac, chucvu, phongban, tamtinh, imageUrl);
+                luuVaoFirestore(docId, noilam, stt, hoten, capbac, chucvu, phongban, tamtinh, imageUrl);
             })
             .catch(error => {
                 console.error("❌ Upload ảnh thất bại:", error);
@@ -173,7 +235,7 @@ function luuDuLieu() {
         const previewImage = document.getElementById("previewImage");
         // const imageUrl = previewImage && previewImage.src !== "#" ? previewImage.src : null;
         const imageUrl = (previewImage && previewImage.src && !previewImage.src.endsWith("#")) ? previewImage.src : null;
-        luuVaoFirestore(docId, noilam, hoten, capbac, chucvu, phongban, tamtinh, imageUrl);
+        luuVaoFirestore(docId, noilam, stt, hoten, capbac, chucvu, phongban, tamtinh, imageUrl);
     }
 }
 
@@ -191,9 +253,10 @@ function resetForm() {
     document.getElementById("docIdEditing").value = "";
 }
 
-function luuVaoFirestore(docId, noilam, hoten, capbac, chucvu, phongban, tamtinh, imageUrl) {
+function luuVaoFirestore(docId, noilam, stt, hoten, capbac, chucvu, phongban, tamtinh, imageUrl) {
     const data = {
         noilam,
+        stt,
         hoten,
         capbac: capbac || null,
         chucvu,
@@ -249,20 +312,6 @@ function luuVaoFirestore(docId, noilam, hoten, capbac, chucvu, phongban, tamtinh
             });
     }
 
-    // const action = docId
-    //     ? db.collection("thongtin").doc(docId).update(data)
-    //     : db.collection("thongtin").add(data);
-
-    // action
-    //     .then(() => {
-    //         alert(docId ? "✅ Cập nhật thành công!" : "✅ Thêm mới thành công!");
-    //         loadDataTable();
-    //         resetForm();
-    //     })
-    //     .catch(error => {
-    //         console.error("❌ Lỗi Firestore:", error);
-    //         alert(docId ? "Cập nhật thất bại!" : "Thêm mới thất bại!");
-    //     });
 }
 
 

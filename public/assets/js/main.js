@@ -188,9 +188,9 @@
     let query = db.collection("thongtin");
 
     if (noilamFilter) {
-      query = query.where("noilam", "==", noilamFilter).orderBy("thoigian", "desc");
+      query = query.where("noilam", "==", noilamFilter).orderBy("stt", "asc");
     } else {
-      query = query.orderBy("thoigian", "desc");
+      query = query.orderBy("stt", "asc");
     }
 
     query.get().then((querySnapshot) => {
@@ -248,9 +248,9 @@
 
     let query = db.collection("thongtin")
     if (noilamFilter) {
-      query = query.where("noilam", "==", noilamFilter).orderBy("thoigian", "desc");
+      query = query.where("noilam", "==", noilamFilter).orderBy("stt", "asc");
     } else {
-      query = query.orderBy("thoigian", "desc");
+      query = query.orderBy("stt", "asc");
     }
     query.get()
       .then((querySnapshot) => {
