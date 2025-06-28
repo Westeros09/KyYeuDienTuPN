@@ -433,12 +433,21 @@ async function uploadAndSave() {
     }
 
     if (files.length === 0) {
-        alert("❗ Bạn chưa chọn ảnh hoặc video.");
+        alert("❗ Bạn chưa chọn ảnh.");
         return;
     }
 
     // Upload tất cả ảnh/video lên Cloudinary
     for (const file of files) {
+        // const fileType = file.type.startsWith("video/") ? "video" : "image";
+        const fileType = file.type;
+
+        // ❌ Nếu không phải ảnh → thông báo và bỏ qua
+        if (!fileType.startsWith("image/")) {
+            alert(`❌ Tệp "${file.name}" không phải là ảnh. Vui lòng chỉ chọn file ảnh (jpg, png, etc).`);
+            return; // Dừng toàn bộ
+        }
+
         const formData = new FormData();
         formData.append("file", file);
         formData.append("upload_preset", uploadPreset);
@@ -449,9 +458,9 @@ async function uploadAndSave() {
         const rawName = file.name.split('.').slice(0, -1).join('.').trim().replace(/\s+/g, "-");
         formData.append("public_id", `${rawName}-${timestamp}`);
 
-        const fileType = file.type.startsWith("video/") ? "video" : "image";
+
         try {
-            const res = await fetch(`https://api.cloudinary.com/v1_1/dn7svhgyv/${fileType}/upload`, {
+            const res = await fetch(`https://api.cloudinary.com/v1_1/dn7svhgyv/image/upload`, {
                 method: "POST",
                 body: formData
             });
@@ -474,7 +483,7 @@ async function uploadAndSave() {
             const docId = query.docs[0].id;
             await db.collection("events").doc(docId).update({
                 images: firebase.firestore.FieldValue.arrayUnion(...imageUrls),
-                total: firebase.firestore.FieldValue.increment(files.length),
+                total: firebase.firestore.FieldValue.increment(imageUrls.length),
                 thoigian: firebase.firestore.FieldValue.serverTimestamp(), // cập nhật thời gian
             });
 
