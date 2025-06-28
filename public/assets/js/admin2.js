@@ -217,6 +217,70 @@ function resetForm() {
     document.getElementById("docIdEditing").value = "";
 }
 
+// function luuVaoFirestore(docId, noilam, stt, hoten, capbac, chucvu, phongban, tamtinh, imageUrl) {
+//     const data = {
+//         noilam,
+//         stt,
+//         hoten,
+//         capbac: capbac || null,
+//         chucvu,
+//         phongban,
+//         tamtinh: tamtinh || null,
+//         hinhanh: imageUrl || null,
+//         thoigian: firebase.firestore.FieldValue.serverTimestamp()
+//     };
+
+//     if (!docId) {
+//         // Trường hợp thêm mới → kiểm tra trùng
+//         db.collection("thongtin")
+//             .where("hoten", "==", hoten)
+//             .where("noilam", "==", noilam)
+//             .where("capbac", "==", capbac)
+//             .get()
+//             .then(querySnapshot => {
+//                 if (!querySnapshot.empty) {
+//                     alert("❗Thành viên đã tồn tại (trùng họ tên, nơi làm và cấp bậc)!");
+//                     return;
+//                 }
+
+//                 // Không trùng → tiến hành thêm
+//                 db.collection("thongtin")
+//                     .add(data)
+//                     .then(() => {
+//                         alert("✅ Thêm mới thành công!");
+//                         loadDataTable();
+//                         resetForm();
+//                     })
+//                     .catch(error => {
+//                         console.error("❌ Lỗi Firestore:", error);
+//                         alert("Thêm mới thất bại!");
+//                     });
+//             })
+//             .catch(error => {
+//                 console.error("❌ Lỗi kiểm tra trùng:", error);
+//                 alert("Lỗi khi kiểm tra dữ liệu trùng!");
+//             });
+//     } else {
+//         // Trường hợp cập nhật
+//         db.collection("thongtin")
+//             .doc(docId)
+//             .update(data)
+//             .then(() => {
+//                 alert("✅ Cập nhật thành công!");
+//                 loadDataTable();
+//                 resetForm();
+//             })
+//             .catch(error => {
+//                 console.error("❌ Lỗi Firestore:", error);
+//                 alert("Cập nhật thất bại!");
+//             });
+//     }
+
+// }
+
+//==========================================CN XÓA===========================================
+
+
 function luuVaoFirestore(docId, noilam, stt, hoten, capbac, chucvu, phongban, tamtinh, imageUrl) {
     const data = {
         noilam,
@@ -230,55 +294,69 @@ function luuVaoFirestore(docId, noilam, stt, hoten, capbac, chucvu, phongban, ta
         thoigian: firebase.firestore.FieldValue.serverTimestamp()
     };
 
-    if (!docId) {
-        // Trường hợp thêm mới → kiểm tra trùng
-        db.collection("thongtin")
-            .where("hoten", "==", hoten)
-            .where("noilam", "==", noilam)
-            .where("capbac", "==", capbac)
-            .get()
-            .then(querySnapshot => {
-                if (!querySnapshot.empty) {
-                    alert("❗Thành viên đã tồn tại (trùng họ tên, nơi làm và cấp bậc)!");
-                    return;
-                }
+    // ✅ Bước 1: Kiểm tra trùng STT (trừ chính nó nếu đang cập nhật)
+    db.collection("thongtin")
+        .where("stt", "==", stt)
+        .get()
+        .then(snapshot => {
+            const trung = snapshot.docs.some(doc => doc.id !== docId);
+            if (trung) {
+                alert("❗ Số thứ tự đã tồn tại. Vui lòng chọn STT khác.");
+                return;
+            }
 
-                // Không trùng → tiến hành thêm
+            // ✅ Không trùng STT → xử lý tiếp
+            if (!docId) {
+                // 👉 THÊM MỚI: Kiểm tra trùng tên, nơi làm, cấp bậc
                 db.collection("thongtin")
-                    .add(data)
+                    .where("hoten", "==", hoten)
+                    .where("noilam", "==", noilam)
+                    .where("capbac", "==", capbac)
+                    .get()
+                    .then(querySnapshot => {
+                        if (!querySnapshot.empty) {
+                            alert("❗Thành viên đã tồn tại (trùng họ tên, nơi làm và cấp bậc)!");
+                            return;
+                        }
+
+                        db.collection("thongtin")
+                            .add(data)
+                            .then(() => {
+                                alert("✅ Thêm mới thành công!");
+                                loadDataTable();
+                                resetForm();
+                            })
+                            .catch(error => {
+                                console.error("❌ Lỗi Firestore:", error);
+                                alert("Thêm mới thất bại!");
+                            });
+                    })
+                    .catch(error => {
+                        console.error("❌ Lỗi kiểm tra trùng:", error);
+                        alert("Lỗi khi kiểm tra dữ liệu trùng!");
+                    });
+
+            } else {
+                // 👉 CẬP NHẬT
+                db.collection("thongtin")
+                    .doc(docId)
+                    .update(data)
                     .then(() => {
-                        alert("✅ Thêm mới thành công!");
+                        alert("✅ Cập nhật thành công!");
                         loadDataTable();
                         resetForm();
                     })
                     .catch(error => {
                         console.error("❌ Lỗi Firestore:", error);
-                        alert("Thêm mới thất bại!");
+                        alert("Cập nhật thất bại!");
                     });
-            })
-            .catch(error => {
-                console.error("❌ Lỗi kiểm tra trùng:", error);
-                alert("Lỗi khi kiểm tra dữ liệu trùng!");
-            });
-    } else {
-        // Trường hợp cập nhật
-        db.collection("thongtin")
-            .doc(docId)
-            .update(data)
-            .then(() => {
-                alert("✅ Cập nhật thành công!");
-                loadDataTable();
-                resetForm();
-            })
-            .catch(error => {
-                console.error("❌ Lỗi Firestore:", error);
-                alert("Cập nhật thất bại!");
-            });
-    }
-
+            }
+        })
+        .catch(error => {
+            console.error("❌ Lỗi khi kiểm tra STT:", error);
+            alert("Có lỗi xảy ra khi kiểm tra STT.");
+        });
 }
-
-//==========================================CN XÓA===========================================
 
 document.addEventListener("click", function (event) {
     if (event.target && event.target.classList.contains("delete-btn")) {
