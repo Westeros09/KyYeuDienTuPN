@@ -109,6 +109,13 @@ document.addEventListener("click", function (event) {
     }
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    // Reset form khi modal exampleModal1 bị đóng (dù là bấm nút × hay click nền mờ)
+    $('#exampleModal').on('hidden.bs.modal', function () {
+        resetForm();
+    });
+});
+
 
 //=============================================ADD & UPDATE=============================================
 
@@ -210,6 +217,7 @@ function resetForm() {
     const preview = document.getElementById("previewImage");
     preview.src = "#";
     preview.style.display = "none";
+    document.getElementById("stt").value = "";
     document.getElementById("hoten").value = "";
     document.getElementById("capbac").value = "";
     document.getElementById("chucvu").value = "";
@@ -218,66 +226,7 @@ function resetForm() {
     document.getElementById("docIdEditing").value = "";
 }
 
-// function luuVaoFirestore(docId, noilam, stt, hoten, capbac, chucvu, phongban, tamtinh, imageUrl) {
-//     const data = {
-//         noilam,
-//         stt,
-//         hoten,
-//         capbac: capbac || null,
-//         chucvu,
-//         phongban,
-//         tamtinh: tamtinh || null,
-//         hinhanh: imageUrl || null,
-//         thoigian: firebase.firestore.FieldValue.serverTimestamp()
-//     };
 
-//     if (!docId) {
-//         // Trường hợp thêm mới → kiểm tra trùng
-//         db.collection("thongtin")
-//             .where("hoten", "==", hoten)
-//             .where("noilam", "==", noilam)
-//             .where("capbac", "==", capbac)
-//             .get()
-//             .then(querySnapshot => {
-//                 if (!querySnapshot.empty) {
-//                     alert("❗Thành viên đã tồn tại (trùng họ tên, nơi làm và cấp bậc)!");
-//                     return;
-//                 }
-
-//                 // Không trùng → tiến hành thêm
-//                 db.collection("thongtin")
-//                     .add(data)
-//                     .then(() => {
-//                         alert("✅ Thêm mới thành công!");
-//                         loadDataTable();
-//                         resetForm();
-//                     })
-//                     .catch(error => {
-//                         console.error("❌ Lỗi Firestore:", error);
-//                         alert("Thêm mới thất bại!");
-//                     });
-//             })
-//             .catch(error => {
-//                 console.error("❌ Lỗi kiểm tra trùng:", error);
-//                 alert("Lỗi khi kiểm tra dữ liệu trùng!");
-//             });
-//     } else {
-//         // Trường hợp cập nhật
-//         db.collection("thongtin")
-//             .doc(docId)
-//             .update(data)
-//             .then(() => {
-//                 alert("✅ Cập nhật thành công!");
-//                 loadDataTable();
-//                 resetForm();
-//             })
-//             .catch(error => {
-//                 console.error("❌ Lỗi Firestore:", error);
-//                 alert("Cập nhật thất bại!");
-//             });
-//     }
-
-// }
 
 //==========================================CN XÓA===========================================
 
@@ -531,6 +480,7 @@ async function uploadAndSave() {
 
             alert("✅ Đã thêm ảnh vào sự kiện cũ!");
             loadEventsTable();
+            resetFormEvent()
         } else {
             // 🆕 Nếu chưa có → tạo mới
             await db.collection("events").add({
@@ -544,6 +494,7 @@ async function uploadAndSave() {
 
             alert("✅ Đã tạo sự kiện mới!");
             loadEventsTable();
+            resetFormEvent()
         }
 
         document.querySelector("form").reset();
@@ -568,6 +519,20 @@ function xoaSuKien(id, title) {
     }
 }
 
+function resetFormEvent() {
+    document.getElementById("eventGroup").selectedIndex = 0;
+    document.getElementById("displayName").value = "";
+    document.getElementById("imageUpload").value = "";
+    document.getElementById("folderName").value = "";
+    document.getElementById("totalImages").value = "";
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Reset form khi modal exampleModal1 bị đóng (dù là bấm nút × hay click nền mờ)
+    $('#exampleModal1').on('hidden.bs.modal', function () {
+        resetFormEvent();
+    });
+});
 
 
 

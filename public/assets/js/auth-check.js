@@ -10,7 +10,7 @@ const firebaseConfig = {
     appId: "1:440890277287:web:f00fcf9b017978f94c4a82",
     measurementId: "G-JVX3GKQ32P"
 };
-const adminEmails = ["chqs@gmail.com", "admin1@gmail.com"];
+const adminEmails = ["chqs@gmail.com", "admin1@gmail.com", "admin@gmail.com"];
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
