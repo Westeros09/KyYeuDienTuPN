@@ -168,7 +168,7 @@
                         <div class="card-header py-3">
                             <!-- <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6> -->
                             <!-- Button trigger modal -->
-                            <button type="button" class="mb-2 btn btn-primary" data-toggle="modal"
+                            <button type="button" id="btnThemSuKien" class="mb-2 btn btn-primary" data-toggle="modal"
                                 data-target="#exampleModal1">
                                 Thêm sự kiện
                             </button>
@@ -211,13 +211,13 @@
                                                         accept="image/*,video/*">
                                                 </div>
 
-                                                <div class="mb-3   ">
+                                                <div class="mb-3 d-none   ">
                                                     <label class="form-label">Tên link</label>
                                                     <input type="text" class="form-control" id="folderName" readonly>
                                                 </div>
 
 
-                                                <div class="mb-3  ">
+                                                <div class="mb-3 d-none ">
                                                     <label class="form-label">Số lượng ảnh/video</label>
                                                     <input type="number" class="form-control" id="totalImages" readonly>
                                                 </div>
@@ -229,9 +229,9 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" onclick="resetForm()"
-                                                data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary" onclick="uploadAndSave()">Save
-                                                changes</button>
+                                                data-dismiss="modal">Đóng</button>
+                                            <button type="button" class="btn btn-primary"
+                                                onclick="uploadAndSave()">Lưu</button>
                                         </div>
                                     </div>
                                 </div>

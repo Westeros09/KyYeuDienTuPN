@@ -158,7 +158,12 @@ async function compressImage(file) {
 
 async function luuDuLieu() {
     const docId = document.getElementById("docIdEditing").value || null;
-    const stt = parseInt(document.getElementById("stt").value) || 0;
+    const stt = parseInt(document.getElementById("stt").value.trim(), 10);
+
+    if (isNaN(stt) || stt <= 0) {
+        alert("❗ Số thứ tự phải là số nguyên dương lớn hơn 0.");
+        return;
+    }
     const noilam = document.getElementById("noilam").value;
     const hoten = document.getElementById("hoten").value;
     const capbac = document.getElementById("capbac").value;
@@ -175,13 +180,6 @@ async function luuDuLieu() {
         const formData = new FormData();
         formData.append("file", compressed);
         formData.append("upload_preset", "KyYeuPN");
-
-
-        // const now = new Date();
-        // const ngay = String(now.getDate()).padStart(2, '0');
-        // const thang = String(now.getMonth() + 1).padStart(2, '0');
-        // const nam = now.getFullYear();
-        // const dateString = `${ngay}${thang}${nam}`;
         const now = new Date();
         const timestamp = `${now.getFullYear()}${(now.getMonth() + 1).toString().padStart(2, '0')}${now.getDate().toString().padStart(2, '0')}-${now.getHours()}${now.getMinutes()}${now.getSeconds()}`;
         const rawName = file.name.split('.').slice(0, -1).join('.').trim().replace(/\s+/g, "-");
@@ -377,6 +375,8 @@ function loadEventsTable() {
     });
 }
 
+
+
 document.addEventListener("click", function (event) {
     if (event.target && event.target.classList.contains("edit-btn-event")) {
         const docId = event.target.getAttribute("data-id");
@@ -391,9 +391,9 @@ document.addEventListener("click", function (event) {
                 document.getElementById("displayName").value = data.title || "";
                 document.getElementById("folderName").value = data.folder || "";
                 document.getElementById("totalImages").value = data.total || "";
-                // 👇 Hiển thị modal sau khi dữ liệu đã được gán
-                // groupEl.setAttribute("disabled", true);
-                // nameEl.setAttribute("readonly", true);
+
+                document.getElementById("eventGroup").disabled = true;
+                document.getElementById("displayName").readOnly = true;
                 $('#exampleModal1').modal('show');
             }
             else {
@@ -401,6 +401,13 @@ document.addEventListener("click", function (event) {
             }
         });
     }
+});
+
+document.getElementById("btnThemSuKien").addEventListener("click", function () {
+    document.getElementById("eventGroup").disabled = false;
+    document.getElementById("displayName").readOnly = false; // ✅ Cho phép nhập khi thêm mới
+    resetFormEvent();       // Reset lại form sạch
+    $('#exampleModal1').modal('show');
 });
 
 function updateFolderName() {
