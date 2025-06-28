@@ -90,6 +90,7 @@ document.addEventListener("click", function (event) {
                 document.getElementById("phongban").value = data.phongban || "";
                 document.getElementById("tamtinh").value = data.tamtinh || "";
 
+
                 if (data.hinhanh) {
                     document.getElementById("previewImage").src = data.hinhanh;
                     document.getElementById("previewImage").style.display = "block";

@@ -11,7 +11,7 @@ const firebaseConfig = {
     measurementId: "G-JVX3GKQ32P"
 };
 
-const adminEmails = ["chqs@gmail.com", "admin1@gmail.com"];
+const adminEmails = ["chqs@gmail.com", "admin1@gmail.com", "admin@gmail.com"];
 
 
 const app = initializeApp(firebaseConfig);
