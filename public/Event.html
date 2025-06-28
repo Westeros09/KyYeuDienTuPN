@@ -81,7 +81,8 @@
 
 
           <li class="dropdown"><a href="#"><span>Sự kiện</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-            <ul>
+            <ul id="eventMenu"></ul>
+            <!-- <ul>
               <li class="dropdown"><a href="#"><span>Tham mưu</span> <i
                     class="bi bi-chevron-down toggle-dropdown"></i></a>
                 <ul>
@@ -131,7 +132,7 @@
                 </ul>
               </li>
 
-            </ul>
+            </ul> -->
           </li>
 
           <li id="adminMenu"><a href="ad_tables.html">Admin</a></li>
@@ -209,9 +210,10 @@
   <!-- Fancybox -->
   <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
   <script src="./assets/js/macy.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore-compat.js"></script>
 
-
-  <script>
+  <!-- <script>
     const params = new URLSearchParams(window.location.search);
     const imageFolder = params.get('folder');
     const totalImages = parseInt(params.get('total')) || 0;
@@ -324,13 +326,143 @@
         },
       },
     });
+  </script> -->
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCo3wgNxCadkszkEP6ymnjFi4HIvVVktbU",
+      authDomain: "kyyeu-phunhuan.firebaseapp.com",
+      projectId: "kyyeu-phunhuan",
+      storageBucket: "kyyeu-phunhuan.firebasestorage.app",
+      messagingSenderId: "440890277287",
+      appId: "1:440890277287:web:f00fcf9b017978f94c4a82",
+      measurementId: "G-JVX3GKQ32P"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    const params = new URLSearchParams(window.location.search);
+    const eventId = params.get("eventId");
+
+    const macyContainer = document.getElementById("macy");
+    const toggleBtn = document.getElementById("toggleBtn");
+    const cloudBase = "https://res.cloudinary.com/dn7svhgyv/image/upload/";
+    const visibleCount = 12;
+    let isExpanded = false;
+    let imageElements = [];
+
+    let folder = "";
+    let total = 0;
+
+    // 🔍 Load từ Firestore theo eventId
+    db.collection("events").doc(eventId).get().then((doc) => {
+      if (!doc.exists) {
+        alert("❌ Không tìm thấy sự kiện!");
+        return;
+      }
+
+      const data = doc.data();
+      folder = data.folder.endsWith("/") ? data.folder : `${data.folder}/`;
+      total = data.total || 0;
+
+      const images = data.images || [];
+
+      images.forEach((imageUrl, i) => {
+        const box = document.createElement("div");
+        box.className = "box";
+        const anchor = document.createElement("a");
+        anchor.setAttribute("data-fancybox", "gallery1");
+        anchor.href = imageUrl;
+        anchor.setAttribute("data-thumb", imageUrl);
+
+        const img = document.createElement("img");
+        img.src = imageUrl;
+        img.alt = `${data.title} ${i + 1}`;
+        img.loading = "lazy";
+
+        anchor.appendChild(img);
+        box.appendChild(anchor);
+        imageElements.push(box);
+      });
+
+      imageElements.slice(0, visibleCount).forEach((el) => macyContainer.appendChild(el));
+
+      if (total <= visibleCount) {
+        toggleBtn.style.display = "none";
+      }
+
+      macy = Macy({
+        container: "#macy",
+        trueOrder: false,
+        waitForImages: true,
+        margin: 30,
+        columns: 4,
+        breakAt: {
+          1200: 4,
+          940: 3,
+          520: 2,
+          400: 1,
+        },
+      });
+
+      macy.runOnImageLoad(() => {
+        document.getElementById("macy").classList.add("show");
+        macy.recalculate(true, true);
+      }, true);
+    });
+
+    toggleBtn.addEventListener("click", () => {
+      if (!isExpanded) {
+        imageElements.slice(visibleCount).forEach((el) => macyContainer.appendChild(el));
+        toggleBtn.textContent = "Rút gọn";
+      } else {
+        imageElements.slice(visibleCount).forEach((el) => macyContainer.removeChild(el));
+        toggleBtn.textContent = "Xem thêm";
+      }
+
+      isExpanded = !isExpanded;
+
+      if (typeof macy !== "undefined") {
+        macy.runOnImageLoad(() => {
+          macy.recalculate(true, true);
+        }, true);
+      }
+    });
+
+    Fancybox.bind('[data-fancybox="gallery1"]', {
+      dragToClose: false,
+      Toolbar: {
+        display: {
+          left: ["close"],
+          middle: [],
+          right: [],
+        },
+      },
+      Images: {
+        zoom: false,
+      },
+      Thumbs: {
+        type: "modern",
+      },
+      Carousel: {
+        transition: false,
+        friction: 0,
+      },
+      on: {
+        "Carousel.ready Carousel.change": (fancybox) => {
+          fancybox.container.style.setProperty(
+            "--bg-image",
+            `url("${fancybox.getSlide().thumbSrc}")`
+          );
+        },
+      },
+    });
   </script>
 
 
-
   <!-- Main JS File -->
-  <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore-compat.js"></script>
+
   <script src="assets/js/main.js"></script>
   <script type="module" src="assets/js/auth-check.js"></script>
 </body>

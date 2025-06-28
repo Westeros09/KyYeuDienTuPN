@@ -134,6 +134,8 @@
   window.addEventListener("load", initSwiper);
 
 
+
+
   // ========================= FILTER (TRANG LIST) =======================================================
   // =====================================================================================================
   // =====================================================================================================
@@ -151,6 +153,66 @@
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
 
+  ///////////////////////////////////////// MENU ///////////////////////////////////////////
+  const eventMenu = document.getElementById("eventMenu");
+  const nhomOrder = ["Tham mưu", "Chính trị", "Hậu cần", "NVQS", "Khác"];
+
+  db.collection("events").orderBy("thoigian", "desc").get().then((querySnapshot) => {
+    const grouped = {};
+
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      const nhom = data.nhom || "Khác";
+
+      if (!grouped[nhom]) grouped[nhom] = [];
+      // grouped[nhom].push(data);
+      grouped[nhom].push({ ...data, id: doc.id }); // Lưu thêm id
+
+    });
+
+    nhomOrder.forEach((nhom) => {
+      if (!grouped[nhom]) return;
+
+      const dropdown = document.createElement("li");
+      dropdown.className = "dropdown";
+      dropdown.innerHTML = `
+      <a href="#"><span>${nhom}</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+      <ul></ul>
+    `;
+
+      const ul = dropdown.querySelector("ul");
+
+      grouped[nhom].forEach((ev) => {
+        const li = document.createElement("li");
+        // li.innerHTML = `<a href="Event.html?folder=${ev.folder}/&total=${ev.total}">${ev.title}</a>`;
+        li.innerHTML = `<a href="Event.html?eventId=${ev.id}">${ev.title}</a>`;
+        ul.appendChild(li);
+      });
+
+      eventMenu.appendChild(dropdown);
+    });
+
+    // for (const nhom in grouped) {
+    //   const dropdown = document.createElement("li");
+    //   dropdown.className = "dropdown";
+    //   dropdown.innerHTML = `
+    //   <a href="#"><span>${nhom}</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+    //   <ul></ul>
+    // `;
+
+    //   const ul = dropdown.querySelector("ul");
+    //   grouped[nhom].forEach((ev) => {
+    //     const li = document.createElement("li");
+    //     li.innerHTML = `<a href="Event.html?folder=${ev.folder}/&total=${ev.total}">${ev.title}</a>`;
+    //     ul.appendChild(li);
+    //   });
+
+    //   eventMenu.appendChild(dropdown);
+    // }
+  });
+
+
+  /////////////////////////////////////////////////////////////////////
   let iso; // Khai báo toàn cục
   function getNoiLamFromURL() {
     const params = new URLSearchParams(window.location.search);
@@ -174,9 +236,6 @@
       napDuLieuVaoHTML();
     });
   }
-
-
-
 
 
   function timTheoTen(tuKhoa) {

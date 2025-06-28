@@ -50,14 +50,14 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
             <!-- Nav Item - Tables -->
-            <li class="nav-item active">
+            <li class="nav-item ">
                 <a class="nav-link" href="ad_tables.html">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Danh sách </span></a>
             </li>
 
 
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="ad_event.html">
                     <i class="fa-solid fa-calendar-days"></i>
                     <span>Sự kiện</span></a>
@@ -164,18 +164,17 @@
                 <div class="container-fluid mt-3">
 
                     <h1 class="h3 mb-2 text-gray-800">Quản lý sự kiện</h1>
-
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             <!-- <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6> -->
                             <!-- Button trigger modal -->
                             <button type="button" class="mb-2 btn btn-primary" data-toggle="modal"
-                                data-target="#exampleModal">
-                                Thêm thành viên
+                                data-target="#exampleModal1">
+                                Thêm sự kiện
                             </button>
 
                             <!-- Modal -->
-                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel"
                                 aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -188,86 +187,51 @@
                                         <div class="modal-body">
                                             <form>
                                                 <input type="hidden" id="docIdEditing">
-                                                <div class="form-group">
-                                                    <label for="noilam">Nơi làm:</label>
-                                                    <select class="form-control" id="noilam">
-                                                        <option value="" disabled selected>-- Chọn nơi làm --</option>
-                                                        <option value="Ban CHQS">Ban CHQS</option>
-                                                        <option value="Phường 1">Phường 1</option>
-                                                        <option value="Phường 2">Phường 2</option>
-                                                        <option value="Phường 4">Phường 4</option>
-                                                        <option value="Phường 5">Phường 5</option>
-                                                        <option value="Phường 7">Phường 7</option>
-                                                        <option value="Phường 8">Phường 8</option>
-                                                        <option value="Phường 9">Phường 9</option>
-                                                        <option value="Phường 10">Phường 10</option>
-                                                        <option value="Phường 11">Phường 11</option>
-                                                        <option value="Phường 13">Phường 13</option>
-                                                        <option value="Phường 15">Phường 15</option>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Nhóm</label>
+                                                    <select class="form-control" id="eventGroup" required>
+                                                        <option value="">-- Chọn nhóm --</option>
+                                                        <option value="Tham mưu">Tham mưu</option>
+                                                        <option value="Chính trị">Chính trị</option>
+                                                        <option value="Hậu cần">Hậu cần</option>
+                                                        <option value="NVQS">NVQS</option>
+                                                        <option value="Khác">Khác</option>
                                                     </select>
                                                 </div>
 
-                                                <div class="form-group">
-                                                    <label for="hoten">Họ và tên</label>
-                                                    <input type="text" class="form-control" id="hoten"
-                                                        aria-describedby="emailHelp">
-
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label for="phongban">Phòng ban:</label>
-                                                    <select class="form-control" id="phongban">
-                                                        <option value="" disabled selected>-- Chọn phòng ban --</option>
-                                                        <option value="bch">Ban chỉ huy</option>
-                                                        <option value="tm">Ban Tham mưu</option>
-                                                        <option value="ct">Ban Chính trị</option>
-                                                        <option value="hckt">Ban Hậu cần-Kỹ thuật</option>
-                                                        <option value="dqtv">Dân quân tự vệ</option>
-                                                        <option value="khac">Khác</option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="capbac">Cấp bậc:</label>
-                                                    <input type="text" class="form-control" id="capbac"
-                                                        aria-describedby="emailHelp">
-
+                                                <div class="mb-3">
+                                                    <label class="form-label">Tên folder</label>
+                                                    <input type="text" class="form-control" id="displayName" required
+                                                        placeholder="VD: Khen thưởng">
                                                 </div>
 
 
-                                                <div class="form-group">
-                                                    <label for="chucvu">Chức vụ:</label>
-                                                    <input type="text" class="form-control" id="chucvu"
-                                                        aria-describedby="emailHelp">
-
+                                                <div class="mb-3">
+                                                    <label class="form-label">Upload ảnh/video</label>
+                                                    <input type="file" id="imageUpload" class="form-control" multiple
+                                                        accept="image/*,video/*">
                                                 </div>
 
-                                                <div class="form-group">
-                                                    <label for="tamtinh">Tâm tình:</label>
-                                                    <textarea class="form-control" id="tamtinh" rows="3"></textarea>
+                                                <div class="mb-3  d-none">
+                                                    <label class="form-label">Tên link</label>
+                                                    <input type="text" class="form-control" id="folderName" readonly>
                                                 </div>
 
-                                                <div class="form-group">
-                                                    <label for="imageUpload">Hình</label>
-                                                    <input type="file" class="form-control-file" id="imageUpload"
-                                                        accept="image/*">
 
-
-
-                                                    <div
-                                                        style="display: flex; justify-content: center; margin-top: 15px;">
-                                                        <img id="previewImage" src="#" alt="Ảnh xem trước"
-                                                            style="max-width: 300px; display: none; border: 1px solid #ccc; padding: 5px;">
-
-                                                    </div>
+                                                <div class="mb-3  d-none">
+                                                    <label class="form-label">Số lượng ảnh/video</label>
+                                                    <input type="number" class="form-control" id="totalImages" readonly>
                                                 </div>
 
-                                                <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+                                                <!-- <button type="button" class="btn btn-success"
+                                                    onclick="uploadAndSave()">Upload & Lưu sự
+                                                    kiện</button> -->
                                             </form>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" onclick="resetForm()"
                                                 data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary" onclick="luuDuLieu()">Save
+                                            <button type="button" class="btn btn-primary" onclick="uploadAndSave()">Save
                                                 changes</button>
                                         </div>
                                     </div>
@@ -276,29 +240,31 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <table class="table table-bordered" id="dataTableEvents" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Họ tên</th>
-                                            <th>Nơi làm</th>
-                                            <th>Cấp bậc</th>
-                                            <th>Phòng ban</th>
-                                            <th>Chức vụ</th>
-                                            <th>Hành động</th>
+                                            <!-- <th>Số thứ tự</th>
+                                        <th>Họ tên</th>
+                                        <th>Nơi làm</th>
+                                        <th>Cấp bậc</th>
+                                        <th>Phòng ban</th>
+                                        <th>Chức vụ</th> -->
+                                            <!-- <th>Hành động</th> -->
 
                                         </tr>
                                     </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Họ tên</th>
-                                            <th>Nơi làm</th>
-                                            <th>Cấp bậc</th>
-                                            <th>Phòng ban</th>
-                                            <th>Chức vụ</th>
-                                            <th>Hành động</th>
+                                    <!-- <tfoot>
+                                    <tr>
+                                        <th>Số thứ tự</th>
+                                        <th>Họ tên</th>
+                                        <th>Nơi làm</th>
+                                        <th>Cấp bậc</th>
+                                        <th>Phòng ban</th>
+                                        <th>Chức vụ</th>
+                                        <th>Hành động</th>
 
-                                        </tr>
-                                    </tfoot>
+                                    </tr>
+                                </tfoot> -->
                                     <tbody>
 
                                     </tbody>
@@ -306,6 +272,51 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- <div class="container mt-5" id="admin-event-form">
+                        <h3>Thêm sự kiện mới</h3>
+                        <form>
+                            <div class="mb-3">
+                                <label class="form-label">Nhóm</label>
+                                <select class="form-control" id="eventGroup" required>
+                                    <option value="">-- Chọn nhóm --</option>
+                                    <option value="Tham mưu">Tham mưu</option>
+                                    <option value="Chính trị">Chính trị</option>
+                                    <option value="Hậu cần">Hậu cần</option>
+                                    <option value="NVQS">NVQS</option>
+                                    <option value="Khác">Khác</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Tên folder</label>
+                                <input type="text" class="form-control" id="displayName" required
+                                    placeholder="VD: Khen thưởng">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Tên link</label>
+                                <input type="text" class="form-control" id="folderName" readonly>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Upload ảnh/video</label>
+                                <input type="file" id="imageUpload" class="form-control" multiple
+                                    accept="image/*,video/*">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Số lượng ảnh/video</label>
+                                <input type="number" class="form-control" id="totalImages" readonly>
+                            </div>
+
+                            <button type="button" class="btn btn-success" onclick="uploadAndSave()">Upload & Lưu sự
+                                kiện</button>
+                        </form>
+                    </div> -->
+
+
+
 
                 </div>
                 <!-- /.container-fluid -->
@@ -376,6 +387,8 @@
     <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore-compat.js"></script>
     <script src="./assets/js/admin2.js"></script>
+
+
     <script type="module" src="assets/js/auth-check-admin.js"></script>
 
 </body>

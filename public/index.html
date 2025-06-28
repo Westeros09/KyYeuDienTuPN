@@ -81,24 +81,10 @@
 
 
           <li class="dropdown"><a href="#"><span>Sự kiện</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-            <ul>
-              <li class="dropdown"><a href="#"><span>Tham mưu</span> <i
-                    class="bi bi-chevron-down toggle-dropdown"></i></a>
-                <ul>
-                  <li><a href="Event.html?folder=ThamMuu/CLBVo/&total=53">CLB võ</a></li>
-                  <li><a href="Event.html?folder=ThamMuu/ChaoCo/&total=6">Chào cờ</a></li>
-                  <li><a href="Event.html?folder=ThamMuu/ChayCYM/&total=9">Chạy CYM</a></li>
-                  <li><a href="Event.html?folder=ThamMuu/ChiTraPhuCap/&total=6">Chi trả phụ cấp TN</a></li>
-                  <li><a href="Event.html?folder=ThamMuu/GiaiThe/&total=11">Công bố giải thể</a></li>
-                  <li><a href="Event.html?folder=ThamMuu/GiaiTheThao/&total=9">Giải thể thao</a></li>
-                  <li><a href="Event.html?folder=ThamMuu/HoiThao80Nam/&total=51">Hội thao 80 năm</a></li>
-                  <li><a href="Event.html?folder=ThamMuu/HoiThaoQP/&total=19">Hội thao quốc phòng</a></li>
-                  <li><a href="Event.html?folder=ThamMuu/CLBVo/&total=53">CLB Võ</a></li>
-                  <li><a href="Event.html?folder=ThamMuu/SSCD/&total=45">SSCD</a></li>
-                  <li><a href="Event.html?folder=ThamMuu/TapHuanCanBo/&total=9">Tập huấn cán bộ</a></li>
-                  <li><a href="Event.html?folder=ThamMuu/TongKetNam/&total=47">Tổng kết năm</a></li>
-                </ul>
-              </li>
+            <ul id="eventMenu"></ul>
+
+            <!-- <ul>
+          
 
               <li class="dropdown"><a href="#"><span>Chính trị</span> <i
                     class="bi bi-chevron-down toggle-dropdown"></i></a>
@@ -110,6 +96,7 @@
 
                 </ul>
               </li>
+
               <li class="dropdown"><a href="#"><span>Hậu cần</span> <i
                     class="bi bi-chevron-down toggle-dropdown"></i></a>
                 <ul>
@@ -131,7 +118,7 @@
                 </ul>
               </li>
 
-            </ul>
+            </ul> -->
           </li>
 
           <li id="adminMenu"><a href="ad_tables.html">Admin</a></li>
@@ -615,7 +602,11 @@
   </script>
 
   <!-- Main JS File -->
+  <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore-compat.js"></script>
   <script src="assets/js/main.js"></script>
+
+
   <script type="module" src="assets/js/auth-check.js"></script>
 
 

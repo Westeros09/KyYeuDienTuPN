@@ -21,11 +21,15 @@ const phongBanMap = {
 };
 
 document.addEventListener("DOMContentLoaded", function () {
-    loadDataTable();
+    // loadDataTable();
+    if (document.getElementById("dataTable")) {
+        loadDataTable();
+    }
+
+    if (document.getElementById("dataTableEvents")) {
+        loadEventsTable();
+    }
 });
-
-
-
 
 function loadDataTable() {
 
@@ -68,43 +72,6 @@ function loadDataTable() {
     }).catch(error => {
         console.error("Lỗi khi load dữ liệu:", error);
     });
-    // db.collection("thongtin").orderBy("thoigian", "desc").get().then((querySnapshot) => {
-    //     const dataSet = [];
-
-    //     querySnapshot.forEach((doc) => {
-    //         const data = doc.data();
-    //         const docId = doc.id;
-    //         const tenPhongBan = phongBanMap[data.phongban] || data.phongban;
-    //         dataSet.push([
-    //             data.hoten || '',
-    //             data.noilam || '',
-    //             data.capbac || 'N/A',
-    //             tenPhongBan || 'N/A',
-    //             data.chucvu || '',
-    //             `
-    //                 <button type="button" class="btn btn-sm btn-primary edit-btn" data-id="${docId}" data-toggle="modal" data-target="#exampleModal">
-    //                     Sửa
-    //                 </button>
-    //                 <button class="btn btn-sm btn-danger delete-btn" data-id="${docId}">Xóa</button>
-    //             `,
-    //         ]);
-    //     });
-
-    //     $('#dataTable').DataTable({
-    //         data: dataSet,
-    //         columns: [
-    //             { title: "Họ tên" },
-    //             { title: "Nơi làm" },
-    //             { title: "Cấp bậc" },
-    //             { title: "Phòng ban" },
-    //             { title: "Chức vụ" },
-    //             { title: "Hành động", orderable: false, searchable: false }
-    //         ],
-    //         destroy: true
-    //     });
-    // }).catch(error => {
-    //     console.error("Lỗi khi load dữ liệu:", error);
-    // });
 }
 
 document.addEventListener("click", function (event) {
@@ -142,7 +109,6 @@ document.addEventListener("click", function (event) {
 });
 
 
-//======================================================================================================
 //=============================================ADD & UPDATE=============================================
 
 const imageInput = document.getElementById('imageUpload');
@@ -182,8 +148,6 @@ async function compressImage(file) {
     }
 }
 
-
-
 async function luuDuLieu() {
     const docId = document.getElementById("docIdEditing").value || null;
     const stt = parseInt(document.getElementById("stt").value) || 0;
@@ -203,20 +167,21 @@ async function luuDuLieu() {
         const formData = new FormData();
         formData.append("file", compressed);
         formData.append("upload_preset", "KyYeuPN");
-        let rawName = file.name.split('.').slice(0, -1).join('.');
-        rawName = rawName
-            .trim()
-            .replace(/\s+/g, '-')
 
+
+        // const now = new Date();
+        // const ngay = String(now.getDate()).padStart(2, '0');
+        // const thang = String(now.getMonth() + 1).padStart(2, '0');
+        // const nam = now.getFullYear();
+        // const dateString = `${ngay}${thang}${nam}`;
         const now = new Date();
-        const ngay = String(now.getDate()).padStart(2, '0');
-        const thang = String(now.getMonth() + 1).padStart(2, '0');
-        const nam = now.getFullYear();
+        const timestamp = `${now.getFullYear()}${(now.getMonth() + 1).toString().padStart(2, '0')}${now.getDate().toString().padStart(2, '0')}-${now.getHours()}${now.getMinutes()}${now.getSeconds()}`;
+        const rawName = file.name.split('.').slice(0, -1).join('.').trim().replace(/\s+/g, "-");
+        formData.append("public_id", `${rawName}-${timestamp}`);
 
-        const dateString = `${ngay}${thang}${nam}`;
-        formData.append("public_id", `${rawName}-${dateString}`);
-        // formData.append("public_id", rawName);
-        // formData.append("overwrite", "true");
+
+        // formData.append("public_id", `${rawName}-${dateString}`);
+
 
         fetch("https://api.cloudinary.com/v1_1/dn7svhgyv/image/upload", {
             method: "POST",
@@ -238,7 +203,6 @@ async function luuDuLieu() {
         luuVaoFirestore(docId, noilam, stt, hoten, capbac, chucvu, phongban, tamtinh, imageUrl);
     }
 }
-
 
 function resetForm() {
     document.getElementById("imageUpload").value = "";
@@ -314,11 +278,7 @@ function luuVaoFirestore(docId, noilam, stt, hoten, capbac, chucvu, phongban, ta
 
 }
 
-
-
-
 //==========================================CN XÓA===========================================
-//===========================================================================================
 
 document.addEventListener("click", function (event) {
     if (event.target && event.target.classList.contains("delete-btn")) {
@@ -336,6 +296,199 @@ document.addEventListener("click", function (event) {
         }
     }
 });
+
+//===========================================================================================
+//==========================================TRANG AD_EVENT======================================
+//===========================================================================================
+
+
+const uploadPreset = "KyYeuPN";
+document.getElementById("eventGroup").addEventListener("change", updateFolderName);
+document.getElementById("displayName").addEventListener("input", updateFolderName);
+
+function loadEventsTable() {
+    db.collection("events").orderBy("thoigian", "desc").get().then((querySnapshot) => {
+        const dataSet = [];
+
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            const docId = doc.id;
+
+            dataSet.push([
+                data.nhom || '',                      // Nhóm sự kiện
+                data.title || '',                     // Tên sự kiện
+                data.folder || '',                    // Đường dẫn thư mục
+
+                data.total || 0,                      // Số lượng ảnh
+                data.thoigian?.toDate().toLocaleString("vi-VN") || '', // Thời gian tạo
+                `
+                     <button type="button" class="btn btn-sm btn-primary edit-btn-event" data-id="${docId}" data-toggle="modal" data-target="#exampleModal">
+                        Thêm ảnh
+                    </button>
+                    <button class="btn btn-sm btn-danger" onclick="xoaSuKien('${docId}', '${data.title}')">Xóa</button>
+                    
+                `,
+            ]);
+        });
+
+        $('#dataTableEvents').DataTable({
+            data: dataSet,
+            columns: [
+                { title: "Nhóm" },
+                { title: "Tên sự kiện" },
+                { title: "Thư mục" },
+
+                { title: "Số ảnh" },
+                { title: "Thời gian tạo" },
+                { title: "Hành động", orderable: false, searchable: false }
+            ],
+            destroy: true
+        });
+    }).catch(error => {
+        console.error("Lỗi khi load dữ liệu:", error);
+    });
+}
+
+document.addEventListener("click", function (event) {
+    if (event.target && event.target.classList.contains("edit-btn-event")) {
+        const docId = event.target.getAttribute("data-id");
+        document.getElementById("docIdEditing").value = docId;
+
+        db.collection("events").doc(docId).get().then((doc) => {
+            if (doc.exists) {
+                const groupEl = document.getElementById("eventGroup");
+                const nameEl = document.getElementById("displayName");
+                const data = doc.data();
+                document.getElementById("eventGroup").value = data.nhom || "";
+                document.getElementById("displayName").value = data.title || "";
+                // document.getElementById("folderName").value = data.folder || "";
+                document.getElementById("totalImages").value = data.total || "";
+                // 👇 Hiển thị modal sau khi dữ liệu đã được gán
+                // groupEl.setAttribute("disabled", true);
+                // nameEl.setAttribute("readonly", true);
+                $('#exampleModal1').modal('show');
+            }
+            else {
+                alert("Không tìm thấy dữ liệu.");
+            }
+        });
+    }
+});
+
+function updateFolderName() {
+    const group = document.getElementById("eventGroup").value.trim();
+    const folderRaw = document.getElementById("displayName").value.trim();
+    if (group && folderRaw) {
+        const formatted = folderRaw.replace(/\s+/g, "");
+        document.getElementById("folderName").value = `${group}/${formatted}`;
+    } else {
+        document.getElementById("folderName").value = "";
+    }
+}
+
+// Cập nhật số lượng ảnh
+document.getElementById("imageUpload").addEventListener("change", () => {
+    const total = document.getElementById("imageUpload").files.length;
+    document.getElementById("totalImages").value = total;
+});
+
+async function uploadAndSave() {
+    const group = document.getElementById("eventGroup").value;
+    const title = document.getElementById("displayName").value.trim();
+    const folder = document.getElementById("folderName").value.trim();
+    const files = document.getElementById("imageUpload").files;
+    const imageUrls = [];
+
+    if (!group || !title || !folder) {
+        alert("❗ Vui lòng điền đầy đủ thông tin.");
+        return;
+    }
+
+    if (files.length === 0) {
+        alert("❗ Bạn chưa chọn ảnh hoặc video.");
+        return;
+    }
+
+    // Upload tất cả ảnh/video lên Cloudinary
+    for (const file of files) {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", uploadPreset);
+        formData.append("folder", folder);
+
+        const now = new Date();
+        const timestamp = `${now.getFullYear()}${(now.getMonth() + 1).toString().padStart(2, '0')}${now.getDate().toString().padStart(2, '0')}-${now.getHours()}${now.getMinutes()}${now.getSeconds()}`;
+        const rawName = file.name.split('.').slice(0, -1).join('.').trim().replace(/\s+/g, "-");
+        formData.append("public_id", `${rawName}-${timestamp}`);
+
+        const fileType = file.type.startsWith("video/") ? "video" : "image";
+        try {
+            const res = await fetch(`https://api.cloudinary.com/v1_1/dn7svhgyv/${fileType}/upload`, {
+                method: "POST",
+                body: formData
+            });
+
+            const data = await res.json();
+            imageUrls.push(data.secure_url);
+            console.log("✅ Uploaded:", data.secure_url);
+        } catch (err) {
+            console.error("❌ Upload thất bại:", file.name, err);
+        }
+    }
+
+    // Lưu sự kiện vào Firestore
+    try {
+        // 2. Tìm tài liệu sự kiện theo `folder`
+        const query = await db.collection("events").where("folder", "==", folder).limit(1).get();
+
+        if (!query.empty) {
+            // 🔄 Nếu sự kiện đã tồn tại → cập nhật ảnh và tổng số
+            const docId = query.docs[0].id;
+            await db.collection("events").doc(docId).update({
+                images: firebase.firestore.FieldValue.arrayUnion(...imageUrls),
+                total: firebase.firestore.FieldValue.increment(files.length),
+                thoigian: firebase.firestore.FieldValue.serverTimestamp(), // cập nhật thời gian
+            });
+
+            alert("✅ Đã thêm ảnh vào sự kiện cũ!");
+            loadEventsTable();
+        } else {
+            // 🆕 Nếu chưa có → tạo mới
+            await db.collection("events").add({
+                folder: folder,
+                title: title,
+                total: files.length,
+                nhom: group,
+                images: imageUrls,
+                thoigian: firebase.firestore.FieldValue.serverTimestamp(),
+            });
+
+            alert("✅ Đã tạo sự kiện mới!");
+            loadEventsTable();
+        }
+
+        document.querySelector("form").reset();
+        document.getElementById("folderName").value = "";
+        document.getElementById("totalImages").value = "";
+    } catch (error) {
+        alert("❌ Lỗi khi lưu sự kiện: " + error.message);
+    }
+}
+
+function xoaSuKien(id, title) {
+    if (confirm(`Bạn có chắc chắn muốn xóa "${title}" không?`)) {
+        db.collection("events").doc(id).delete()
+            .then(() => {
+                alert("✅ Đã xóa thành công!");
+                location.reload();
+            })
+            .catch((error) => {
+                console.error("❌ Lỗi khi xóa tài liệu:", error);
+                alert("Có lỗi xảy ra khi xóa.");
+            });
+    }
+}
+
 
 
 
