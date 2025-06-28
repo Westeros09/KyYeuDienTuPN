@@ -361,7 +361,7 @@ document.addEventListener("click", function (event) {
                 const data = doc.data();
                 document.getElementById("eventGroup").value = data.nhom || "";
                 document.getElementById("displayName").value = data.title || "";
-                // document.getElementById("folderName").value = data.folder || "";
+                document.getElementById("folderName").value = data.folder || "";
                 document.getElementById("totalImages").value = data.total || "";
                 // 👇 Hiển thị modal sau khi dữ liệu đã được gán
                 // groupEl.setAttribute("disabled", true);
